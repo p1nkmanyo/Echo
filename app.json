@@ -1,21 +1,23 @@
 {
   "expo": {
-    "name": "Echo",
-    "slug": "echo-messenger",
+    "name": "Findy",
+    "slug": "findy-messenger",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
-    "scheme": "echo",
+    "scheme": "findy",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.p1nkmanyo.findy"
     },
     "android": {
+      "package": "com.p1nkmanyo.findy",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
