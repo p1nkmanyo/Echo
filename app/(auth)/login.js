@@ -35,7 +35,7 @@ export default function LoginScreen() {
         text1: 'Успешно',
         text2: 'Вы вошли в систему.',
       });
-      // In a real app, you would redirect to the main app screen here
+      router.replace('/(tabs)/chats');
     } else {
       Toast.show({
         type: 'error',

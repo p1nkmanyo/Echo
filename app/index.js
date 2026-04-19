@@ -1,14 +1,38 @@
-import { View, Text, StyleSheet, TouchableOpacity, useColorScheme, SafeAreaView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, useColorScheme, SafeAreaView, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import Toast from 'react-native-toast-message';
-import { signInWithGoogle } from '../utils/auth';
+import { signInWithGoogle, getToken } from '../utils/auth';
 
 export default function WelcomeScreen() {
   const router = useRouter();
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   const styles = getStyles(isDark);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = await getToken();
+      if (token) {
+        // If token exists, redirect to main app immediately
+        router.replace('/(tabs)/chats');
+      } else {
+        setIsCheckingAuth(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  if (isCheckingAuth) {
+    return (
+      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <ActivityIndicator size="large" color={isDark ? '#FFFFFF' : '#000000'} />
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>

@@ -45,7 +45,7 @@ export default function RegisterScreen() {
         text1: 'Успешно',
         text2: 'Аккаунт создан.',
       });
-      // In a real app, you would redirect to the main app screen here or update user profile with 'name'
+      router.replace('/(tabs)/chats');
     } else {
       Toast.show({
         type: 'error',
