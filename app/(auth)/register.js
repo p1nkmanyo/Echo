@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, useColorScheme, KeyboardAvoidingView, Platform, ActivityIndicator, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import Toast from 'react-native-toast-message';
+import { Ionicons } from '@expo/vector-icons';
 import { registerWithEmail } from '../../utils/auth';
 
 export default function RegisterScreen() {
@@ -14,6 +15,8 @@ export default function RegisterScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleRegister = async () => {
@@ -45,7 +48,7 @@ export default function RegisterScreen() {
         text1: 'Успешно',
         text2: 'Аккаунт создан.',
       });
-      router.replace('/(tabs)/chats');
+      router.replace('/(tabs)');
     } else {
       Toast.show({
         type: 'error',
@@ -98,26 +101,50 @@ export default function RegisterScreen() {
 
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Пароль</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Придумайте пароль (мин. 6 символов)"
-              placeholderTextColor={isDark ? '#666666' : '#999999'}
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-            />
+            <View style={styles.passwordContainer}>
+              <TextInput
+                style={styles.passwordInput}
+                placeholder="Придумайте пароль (мин. 6 символов)"
+                placeholderTextColor={isDark ? '#666666' : '#999999'}
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={!showPassword}
+              />
+              <TouchableOpacity
+                style={styles.eyeIcon}
+                onPress={() => setShowPassword(!showPassword)}
+              >
+                <Ionicons
+                  name={showPassword ? "eye-off-outline" : "eye-outline"}
+                  size={24}
+                  color={isDark ? '#A0A0A0' : '#666666'}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
 
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Подтверждение пароля</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Повторите пароль"
-              placeholderTextColor={isDark ? '#666666' : '#999999'}
-              value={confirmPassword}
-              onChangeText={setConfirmPassword}
-              secureTextEntry
-            />
+            <View style={styles.passwordContainer}>
+              <TextInput
+                style={styles.passwordInput}
+                placeholder="Повторите пароль"
+                placeholderTextColor={isDark ? '#666666' : '#999999'}
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                secureTextEntry={!showConfirmPassword}
+              />
+              <TouchableOpacity
+                style={styles.eyeIcon}
+                onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                <Ionicons
+                  name={showConfirmPassword ? "eye-off-outline" : "eye-outline"}
+                  size={24}
+                  color={isDark ? '#A0A0A0' : '#666666'}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
 
           <TouchableOpacity
@@ -189,6 +216,22 @@ const getStyles = (isDark) => StyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 16,
     color: isDark ? '#FFFFFF' : '#000000',
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 56,
+    backgroundColor: isDark ? '#2C2C2E' : '#F2F2F7',
+    borderRadius: 16,
+    paddingHorizontal: 16,
+  },
+  passwordInput: {
+    flex: 1,
+    fontSize: 16,
+    color: isDark ? '#FFFFFF' : '#000000',
+  },
+  eyeIcon: {
+    padding: 4,
   },
   button: {
     width: '100%',

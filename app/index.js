@@ -17,7 +17,7 @@ export default function WelcomeScreen() {
       const token = await getToken();
       if (token) {
         // If token exists, redirect to main app immediately
-        router.replace('/(tabs)/chats');
+        router.replace('/(tabs)');
       } else {
         setIsCheckingAuth(false);
       }

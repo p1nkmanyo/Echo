@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, useColorScheme, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import Toast from 'react-native-toast-message';
+import { Ionicons } from '@expo/vector-icons';
 import { loginWithEmail, signInWithGoogle } from '../../utils/auth';
 
 export default function LoginScreen() {
@@ -12,6 +13,7 @@ export default function LoginScreen() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
@@ -35,7 +37,7 @@ export default function LoginScreen() {
         text1: 'Успешно',
         text2: 'Вы вошли в систему.',
       });
-      router.replace('/(tabs)/chats');
+      router.replace('/(tabs)');
     } else {
       Toast.show({
         type: 'error',
@@ -91,14 +93,26 @@ export default function LoginScreen() {
 
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Пароль</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Введите ваш пароль"
-              placeholderTextColor={isDark ? '#666666' : '#999999'}
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-            />
+            <View style={styles.passwordContainer}>
+              <TextInput
+                style={styles.passwordInput}
+                placeholder="Введите ваш пароль"
+                placeholderTextColor={isDark ? '#666666' : '#999999'}
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={!showPassword}
+              />
+              <TouchableOpacity
+                style={styles.eyeIcon}
+                onPress={() => setShowPassword(!showPassword)}
+              >
+                <Ionicons
+                  name={showPassword ? "eye-off-outline" : "eye-outline"}
+                  size={24}
+                  color={isDark ? '#A0A0A0' : '#666666'}
+                />
+              </TouchableOpacity>
+            </View>
             <TouchableOpacity style={styles.forgotPassword}>
               <Text style={styles.forgotPasswordText}>Забыли пароль?</Text>
             </TouchableOpacity>
@@ -191,6 +205,22 @@ const getStyles = (isDark) => StyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 16,
     color: isDark ? '#FFFFFF' : '#000000',
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 56,
+    backgroundColor: isDark ? '#2C2C2E' : '#F2F2F7',
+    borderRadius: 16,
+    paddingHorizontal: 16,
+  },
+  passwordInput: {
+    flex: 1,
+    fontSize: 16,
+    color: isDark ? '#FFFFFF' : '#000000',
+  },
+  eyeIcon: {
+    padding: 4,
   },
   forgotPassword: {
     alignSelf: 'flex-end',
